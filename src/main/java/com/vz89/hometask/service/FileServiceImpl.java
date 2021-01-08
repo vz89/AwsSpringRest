@@ -36,11 +36,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean execute(MultipartFile multipartFile) {
+    public String execute(MultipartFile multipartFile) {
         convertMultiPartToArchive(multipartFile);
-        if (!validateArchive()) return false;
+        if (!validateArchive()) return "no valid archive";
         postToAwsS3();
-        return true;
+        return amazonClient.getBucketUrl();
     }
 
     private void postToAwsS3() {

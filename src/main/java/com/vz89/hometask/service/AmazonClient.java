@@ -22,4 +22,8 @@ public class AmazonClient {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
+
+    public String getBucketUrl() {
+        return s3client.getUrl(bucketName, "").toString();
+    }
 }

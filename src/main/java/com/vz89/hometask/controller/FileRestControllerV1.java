@@ -11,16 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-public class FileController {
+public class FileRestControllerV1 {
     private final FileService fileService;
 
-    @PostMapping("/file")
+    @PostMapping("v1/files")
     public ResponseEntity<?> postFile(@RequestParam("file") MultipartFile multipartFile) {
-        final boolean execute = fileService.execute(multipartFile);
-        if (execute) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
+        final String execute = fileService.execute(multipartFile);
+        if (execute.contains("not valid"))
             return new ResponseEntity<>("file not valid", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(execute, HttpStatus.OK);
     }
 }
